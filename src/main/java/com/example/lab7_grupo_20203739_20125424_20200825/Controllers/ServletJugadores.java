@@ -18,7 +18,7 @@ public class ServletJugadores extends HttpServlet {
         switch(action){
             case"listar":
                 request.setAttribute("listaJugadores", jugadoresDao.listarJugadores());
-                view = request.getRequestDispatcher("jugadores.jsp");
+                view = request.getRequestDispatcher("index.jsp");
                 view.forward(request, response);
             break;
         }
