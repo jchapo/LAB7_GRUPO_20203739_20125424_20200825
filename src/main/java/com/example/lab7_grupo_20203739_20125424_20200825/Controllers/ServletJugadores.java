@@ -10,6 +10,7 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 @WebServlet(name = "ServletJugadores", value = "/jugadores")
 public class ServletJugadores extends HttpServlet {
@@ -41,29 +42,46 @@ public class ServletJugadores extends HttpServlet {
         String action = request.getParameter("action") == null ? "listar" : request.getParameter("action");
 
         JugadoresDao jugadoresDao = new JugadoresDao();
-        Jugador jugador = setJugadorData(request);
 
         switch (action) {
             case "guardar":
-                jugadoresDao.guardarJugador(jugador);
+                Jugador jugador = new Jugador();
 
-                response.sendRedirect("ServletJugadores");
+
+
+
+
+                boolean validacion = esNumero((request.getParameter("edad")));
+                if( validacion && request.getParameter("nombre")!="" && request.getParameter("edad") != null && request.getParameter("posicion") !=""  &&  request.getParameter("club") !="" && request.getParameter("idSeleccion")!= ""){
+                    jugador.setNombre(request.getParameter("nombre"));
+                    String edad = request.getParameter("edad");
+                    jugador.setEdad(Integer.parseInt(edad));
+                    jugador.setPosicion(request.getParameter("posicion"));
+                    jugador.setClub(request.getParameter("club"));
+
+                    Seleccion seleccion = new Seleccion();
+                    seleccion.setIdSeleccion(Integer.parseInt(request.getParameter("idSeleccion")));
+                    jugador.setSeleccion(seleccion);
+                    jugadoresDao.guardarJugador(jugador);
+                    
+                    response.sendRedirect("ServletJugadores");
+                }
+                else{
+                        response.sendRedirect("ServletJugadores?action=agregar");
+                    }
+                
                 break;
         }
 
     }
 
-    private Jugador setJugadorData(HttpServletRequest request) {
-        Jugador jugador = new Jugador();
-        jugador.setNombre(request.getParameter("nombre"));
-        jugador.setEdad(Integer.parseInt(request.getParameter("edad")));
-        jugador.setPosicion(request.getParameter("posicion"));
-        jugador.setClub(request.getParameter("club"));
 
-        Seleccion seleccion = new Seleccion();
-        seleccion.setIdSeleccion(Integer.parseInt(request.getParameter("idSeleccion")));
-        jugador.setSeleccion(seleccion);
-
-        return jugador;
+    public static boolean esNumero(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
