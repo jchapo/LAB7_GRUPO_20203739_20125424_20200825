@@ -21,7 +21,7 @@
       <li class="breadcrumb-item active"><a href="<%=request.getContextPath()%>/ServletSeleccion">Selecciones</a></li>
     </ol>
   </nav>
-  <a href="" class="btn btn-primary mb-4">
+  <a href="<%= request.getContextPath()%>/ServletJugadores?action=agregar" class="btn btn-primary mb-4">
     Agregar nuevo jugador</a>
   <table class="table">
     <thead>

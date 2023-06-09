@@ -3,10 +3,7 @@ package com.example.lab7_grupo_20203739_20125424_20200825.Models.Daos;
 import com.example.lab7_grupo_20203739_20125424_20200825.Models.beans.Jugador;
 import com.example.lab7_grupo_20203739_20125424_20200825.Models.beans.Seleccion;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class JugadoresDao  extends BaseDao{
@@ -40,6 +37,27 @@ public class JugadoresDao  extends BaseDao{
         }
 
         return listarJugadores;
+    }
+
+    public void guardarJugador(Jugador jugador) {
+
+        String sql = "INSERT INTO jugador (nombre, edad, posicion, club, sn_idSeleccion) "
+                + "VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, jugador.getNombre());
+            pstmt.setInt(2, jugador.getEdad());
+            pstmt.setString(3, jugador.getPosicion());
+            pstmt.setString(4, jugador.getClub());
+            pstmt.setInt(5, jugador.getSeleccion().getIdSeleccion());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
 }
