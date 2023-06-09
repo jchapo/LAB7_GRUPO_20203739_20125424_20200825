@@ -4,7 +4,7 @@ public class Seleccion {
     private int idSeleccion;
     private String nombre;
     private String tecnico;
-    private int estadio_idEstadio;
+    private Estadio estadio;
 
     public int getIdSeleccion() {
         return idSeleccion;
@@ -30,11 +30,12 @@ public class Seleccion {
         this.tecnico = tecnico;
     }
 
-    public int getEstadio_idEstadio() {
-        return estadio_idEstadio;
+
+    public Estadio getEstadio() {
+        return estadio;
     }
 
-    public void setEstadio_idEstadio(int estadio_idEstadio) {
-        this.estadio_idEstadio = estadio_idEstadio;
+    public void setEstadio(Estadio estadio) {
+        this.estadio = estadio;
     }
 }
