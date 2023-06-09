@@ -11,7 +11,7 @@ public class JugadoresDao  extends BaseDao{
 
         ArrayList<Jugador> listarJugadores = new ArrayList<>();
         // Query listo
-        String sql = "SELECT j.idJugador, j.nombre, j.edad, j.posicion, j.club, s.nombre  FROM jugador j\n" +
+        String sql = "SELECT * FROM jugador j\n" +
                 "inner join seleccion s on j.sn_idSeleccion =s.idSeleccion;";
 
         try (Connection conn = this.getConnection();
@@ -25,9 +25,11 @@ public class JugadoresDao  extends BaseDao{
                 jugador.setEdad(rs.getInt(3));
                 jugador.setPosicion(rs.getString(4));
                 jugador.setClub(rs.getString(5));
+
                 Seleccion seleccion = new Seleccion();
-                seleccion.setIdSeleccion(rs.getInt(1)); //Números de la tabla selección
-                seleccion.setNombre(rs.getString(2));
+
+                seleccion.setIdSeleccion(rs.getInt(7));
+                seleccion.setNombre(rs.getString(8));
                 jugador.setSeleccion(seleccion);
 
                 listarJugadores.add(jugador);
@@ -38,6 +40,10 @@ public class JugadoresDao  extends BaseDao{
 
         return listarJugadores;
     }
+
+
+
+
 
     public void guardarJugador(Jugador jugador) {
 
@@ -59,5 +65,8 @@ public class JugadoresDao  extends BaseDao{
             ex.printStackTrace();
         }
     }
+
+
+
 
 }
