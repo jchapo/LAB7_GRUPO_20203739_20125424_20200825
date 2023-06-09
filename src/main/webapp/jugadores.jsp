@@ -17,11 +17,11 @@
   <h1 class='mb-3'>Clasificatorias Sudamericanas Mundial 2026</h1>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item" ><a href="<%=request.getContextPath()%>/ServletJugadores">Jugadores</a></li>
+      <li class="breadcrumb-item" ><a href="<%=request.getContextPath()%>/jugadores">Jugadores</a></li>
       <li class="breadcrumb-item active"><a href="<%=request.getContextPath()%>/ServletSeleccion">Selecciones</a></li>
     </ol>
   </nav>
-  <a href="<%= request.getContextPath()%>/ServletJugadores?action=agregar" class="btn btn-primary mb-4">
+  <a href="<%= request.getContextPath()%>/jugadores?action=agregar" class="btn btn-primary mb-4">
     Agregar nuevo jugador</a>
   <table class="table">
     <thead>

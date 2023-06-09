@@ -11,7 +11,7 @@ import jakarta.servlet.annotation.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-@WebServlet(name = "ServletJugadores", value = "/ServletJugadores")
+@WebServlet(name = "ServletJugadores", value = "/jugadores")
 public class ServletJugadores extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,7 +23,7 @@ public class ServletJugadores extends HttpServlet {
         switch(action){
             case"listar":
                 request.setAttribute("listaJugadores", jugadoresDao.listarJugadores());
-                view = request.getRequestDispatcher("index.jsp");
+                view = request.getRequestDispatcher("jugadores.jsp");
                 view.forward(request, response);
             break;
 
