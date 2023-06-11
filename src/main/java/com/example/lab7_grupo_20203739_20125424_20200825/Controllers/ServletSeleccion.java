@@ -1,53 +1,108 @@
 package com.example.lab7_grupo_20203739_20125424_20200825.Controllers;
-
-import com.example.lab7_grupo_20203739_20125424_20200825.Models.Daos.JugadoresDao;
+import com.example.lab7_grupo_20203739_20125424_20200825.Models.Daos.EstadioDao;
 import com.example.lab7_grupo_20203739_20125424_20200825.Models.Daos.SeleccionesDao;
-import com.example.lab7_grupo_20203739_20125424_20200825.Models.beans.Jugador;
+import com.example.lab7_grupo_20203739_20125424_20200825.Models.beans.Seleccion;
+import com.example.lab7_grupo_20203739_20125424_20200825.Models.beans.Estadio;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "ServletSeleccion", value = "/seleccion")
+@WebServlet(name = "ServletSeleccion", value = "/selecciones")
 public class ServletSeleccion extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String action = request.getParameter("action") == null ? "listar" : request.getParameter("action");
+
         RequestDispatcher view;
-        JugadoresDao jugadoresDao = new JugadoresDao();
-        SeleccionesDao seleccionesDao = new SeleccionesDao();
+        SeleccionesDao seleccionesdao = new SeleccionesDao();
+        EstadioDao estadioDao = new EstadioDao();
 
-        switch(action){
-            case"listar":
-                request.setAttribute("listaJugadores", jugadoresDao.listarJugadores());
-                view = request.getRequestDispatcher("jugadores.jsp");
+        switch (action) {
+            case "listar":
+                request.setAttribute("listaSelecciones", seleccionesdao.listarSelecciones());
+                view = request.getRequestDispatcher("selecciones.jsp");
                 view.forward(request, response);
                 break;
-
             case "agregar":
-
-                request.setAttribute("listaSelecciones",seleccionesDao.listarSelecciones());
-                view = request.getRequestDispatcher("crearJugadores.jsp");
+                request.setAttribute("listaEstadios", estadioDao.listarEstadios());
+                view = request.getRequestDispatcher("agregarSeleccion.jsp");
                 view.forward(request, response);
                 break;
+
+            /*case "editar":
+                if (request.getParameter("id") != null) {
+                    String employeeIdString = request.getParameter("id");
+                    int employeeId = 0;
+                    try {
+                        employeeId = Integer.parseInt(employeeIdString);
+                    } catch (NumberFormatException ex) {
+                        response.sendRedirect("EmployeeServlet");
+                    }
+
+                    Employee emp = employeeDao.obtenerEmpleado(employeeId);
+
+                    if (emp != null) {
+                        request.setAttribute("empleado", emp);
+                        request.setAttribute("listaEmpleados",employeeDao.listarEmpleados());
+                        request.setAttribute("listaTrabajos",jobDao.obtenerListaTrabajos());
+                        request.setAttribute("listaDepartamentos",departmentDao.lista());
+                        view = request.getRequestDispatcher("employees/formularioEditar.jsp");
+                        view.forward(request, response);
+                    } else {
+                        response.sendRedirect("EmployeeServlet");
+                    }
+
+                } else {
+                    response.sendRedirect("EmployeeServlet");
+                }
+
+                break;*/
+            case "borrar":
+                if (request.getParameter("id") != null) {
+                    String seleccionIdString = request.getParameter("id");
+                    int seleccionId = 0;
+                    try {
+                        seleccionId = Integer.parseInt(seleccionIdString);
+                    } catch (NumberFormatException ex) {
+                        response.sendRedirect("selecciones");
+                    }
+
+                    Seleccion seleccion = seleccionesdao.obtenerSeleccion(seleccionId);
+
+                    if (seleccion != null) {
+                        seleccionesdao.borrarSeleccion(seleccionId);
+                    }
+                }
+
+                response.sendRedirect("selecciones");
+                break;
+            }
         }
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action") == null ? "listar" : request.getParameter("action");
 
-        JugadoresDao jugadoresDao = new JugadoresDao();
-        Jugador jugador = setJugadorData(request);
+        SeleccionesDao seleccionesdao = new SeleccionesDao();
+        Seleccion seleccion = setSeleccionData(request);
 
         switch (action) {
             case "guardar":
-                jugadoresDao.guardarJugador(jugador);
-
-                response.sendRedirect("ServletJugadores");
+                seleccionesdao.guardarSeleccion(seleccion);
+                response.sendRedirect("selecciones");
                 break;
         }
 
+    }
+
+    private Seleccion setSeleccionData(HttpServletRequest request) {
+        Seleccion seleccion = new Seleccion();
+        seleccion.setNombre(request.getParameter("nombre_seleccion"));
+        seleccion.setTecnico(request.getParameter("tecnico"));
+        seleccion.setIdSeleccion(Integer.parseInt(request.getParameter("estadioId")));
+        return seleccion;
     }
 
 }

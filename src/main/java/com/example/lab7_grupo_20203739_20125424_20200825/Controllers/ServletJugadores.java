@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-@WebServlet(name = "ServletJugadores", value = "/jugadores")
+@WebServlet(name = "ServletJugadores", value = "/ServletJugadores")
 public class ServletJugadores extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,11 +46,6 @@ public class ServletJugadores extends HttpServlet {
         switch (action) {
             case "guardar":
                 Jugador jugador = new Jugador();
-
-
-
-
-
                 boolean validacion = esNumero((request.getParameter("edad")));
                 if( validacion && request.getParameter("nombre")!="" && request.getParameter("edad") != null && request.getParameter("posicion") !=""  &&  request.getParameter("club") !="" && request.getParameter("idSeleccion")!= ""){
                     jugador.setNombre(request.getParameter("nombre"));

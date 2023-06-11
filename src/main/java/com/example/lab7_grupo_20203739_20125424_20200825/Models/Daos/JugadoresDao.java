@@ -40,11 +40,6 @@ public class JugadoresDao  extends BaseDao{
 
         return listarJugadores;
     }
-
-
-
-
-
     public void guardarJugador(Jugador jugador) {
 
         String sql = "INSERT INTO jugador (nombre, edad, posicion, club, sn_idSeleccion) "
@@ -65,8 +60,5 @@ public class JugadoresDao  extends BaseDao{
             ex.printStackTrace();
         }
     }
-
-
-
 
 }
